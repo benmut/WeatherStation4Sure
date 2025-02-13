@@ -1,6 +1,8 @@
 package com.mutondo.weatherstation4sure.weather_forecast.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
+import com.mutondo.weatherstation4sure.utils.orZero
+import com.mutondo.weatherstation4sure.weather_forecast.domain.model.WeatherForecast
 
 data class WeatherForecastDto(
     @SerializedName("cod")
@@ -60,3 +62,24 @@ data class City(
     @SerializedName("sunset")
     val sunset: Long? = null,
 )
+
+fun WeatherForecastDto.toWeatherForecast(): List<WeatherForecast> {
+    return forecasts?.filter { forecast ->
+        // I choose to pick 12:00:00 data... I could pick based on current time as well
+        forecast.timeStampS!!.contains("12:00:00") }?.map {
+        WeatherForecast(
+            temp = it.main?.temperature.orZero,
+            tempMax = it.main?.temperatureMax.orZero,
+            tempMin = it.main?.temperatureMin.orZero,
+            description = it.weathers?.get(0)?.description.orEmpty(),
+            pressure = it.main?.pressure.orZero,
+            humidity = it.main?.humidity.orZero,
+            visibility = it.visibility.orZero,
+            timeStampLong = it.timeStampL.orZero,
+            timeStampString = it.timeStampS.toString(),
+            city = city?.name.orEmpty(),
+            sunrise = city?.sunrise.orZero,
+            sunset = city?.sunset.orZero
+        )
+    } ?: listOf()
+}

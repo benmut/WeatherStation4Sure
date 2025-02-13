@@ -1,4 +1,4 @@
-package com.mutondo.weatherstation4sure.weather_forecast.domain
+package com.mutondo.weatherstation4sure.weather_forecast.domain.model
 
 data class WeatherForecast(
     val temp: Float,
