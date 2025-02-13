@@ -1,6 +1,8 @@
 package com.mutondo.weatherstation4sure.weather_forecast.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
+import com.mutondo.weatherstation4sure.utils.AppUtils.Companion.convertKelvinToCelsius
+import com.mutondo.weatherstation4sure.utils.DayTimeUtils.Companion.getDayOfWeek
 import com.mutondo.weatherstation4sure.utils.orZero
 import com.mutondo.weatherstation4sure.weather_forecast.domain.model.WeatherForecast
 
@@ -68,14 +70,15 @@ fun WeatherForecastDto.toWeatherForecast(): List<WeatherForecast> {
         // I choose to pick 12:00:00 data... I could pick based on current time as well
         forecast.timeStampS!!.contains("12:00:00") }?.map {
         WeatherForecast(
-            temp = it.main?.temperature.orZero,
-            tempMax = it.main?.temperatureMax.orZero,
-            tempMin = it.main?.temperatureMin.orZero,
+            // TODO - Handle Fahrenheit
+            temperature = convertKelvinToCelsius(it.main?.temperature.orZero),
+            tempMax = convertKelvinToCelsius(it.main?.temperatureMax.orZero),
+            tempMin = convertKelvinToCelsius(it.main?.temperatureMin.orZero),
             description = it.weathers?.get(0)?.description.orEmpty(),
             pressure = it.main?.pressure.orZero,
             humidity = it.main?.humidity.orZero,
             visibility = it.visibility.orZero,
-            timeStampLong = it.timeStampL.orZero,
+            dayOfWeek = getDayOfWeek(it.timeStampL.orZero),
             timeStampString = it.timeStampS.toString(),
             city = city?.name.orEmpty(),
             sunrise = city?.sunrise.orZero,
