@@ -13,9 +13,12 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
+import com.mutondo.weatherstation4sure.navigation.Navigator
 
 @Composable
-fun MapScreen() {
+fun MapScreen(
+    navigator: Navigator
+) {
     val currentLocation = LatLng(-26.204103, 28.047304) // Johannesburg
     var marker by remember { mutableStateOf(currentLocation) }
 
@@ -32,6 +35,9 @@ fun MapScreen() {
             state = rememberUpdatedMarkerState(position = marker),
             title = "You are here",
             snippet = "${marker.latitude}; ${marker.longitude}",
+            onInfoWindowLongClick = {
+                navigator.navigateToDaysForecast("${marker.latitude}", "${marker.longitude}")
+            }
         )
     }
 }
