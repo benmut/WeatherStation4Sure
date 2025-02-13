@@ -5,12 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.mutondo.weatherstation4sure.navigation.AppNavHost
 import com.mutondo.weatherstation4sure.ui.theme.WeatherStation4SureTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,9 +16,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WeatherStation4SureTheme {
-
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    AppNavHost()
+                }
             }
         }
     }
 }
-
