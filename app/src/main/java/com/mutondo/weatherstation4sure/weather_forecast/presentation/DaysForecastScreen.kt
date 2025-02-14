@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import com.mutondo.weatherstation4sure.BuildConfig
 import com.mutondo.weatherstation4sure.R
@@ -33,7 +32,7 @@ import com.mutondo.weatherstation4sure.weather_forecast.domain.model.WeatherFore
 fun DaysForecastScreen(
     navigator: Navigator,
     navBackStackEntry: NavBackStackEntry,
-    viewModel: WeatherForecastViewModel = hiltViewModel()
+    viewModel: WeatherForecastViewModel
 ) {
     val latitude = navBackStackEntry.arguments?.getString(LATITUDE_KEY) ?: ""
     val longitude = navBackStackEntry.arguments?.getString(LONGITUDE_KEY) ?: ""
@@ -56,6 +55,7 @@ fun DaysForecastScreen(
     ) { contentPadding ->
         DaysForecastScreenContent(
             modifier = Modifier.padding(top = contentPadding.calculateTopPadding()),
+            navigator = navigator,
             viewModel.uiState.value
         )
     }
@@ -64,27 +64,34 @@ fun DaysForecastScreen(
 @Composable
 fun DaysForecastScreenContent(
     modifier: Modifier,
+    navigator: Navigator,
     uiState: WeatherForecastUiState,
 ) {
     ForecastList(
         modifier = modifier.fillMaxSize(),
-        forecasts = uiState.forecasts
+        forecasts = uiState.forecasts,
+        onDaySelected = {
+            navigator.navigateToDayForecastDetails(it)
+        }
     )
 }
 
 @Composable
 fun ForecastList(
     modifier: Modifier = Modifier,
-    forecasts: List<WeatherForecast>
+    forecasts: List<WeatherForecast>,
+    onDaySelected: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
     ) {
-        items(forecasts) { forecast ->
+        itemsIndexed(forecasts) { index, forecast ->
             ForecastItem(
+                index = index,
                 day = forecast.dayOfWeek,
                 icon = "", // TODO
-                temperature = forecast.temperature
+                temperature = forecast.temperature,
+                onDaySelected = onDaySelected,
             )
 
             HorizontalDivider(
@@ -98,9 +105,11 @@ fun ForecastList(
 
 @Composable
 fun ForecastItem(
+    index: Int,
     day: String,
     icon: String,
-    temperature: String
+    temperature: String,
+    onDaySelected: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -109,7 +118,7 @@ fun ForecastItem(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) {
-
+                onDaySelected(index)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

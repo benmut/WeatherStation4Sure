@@ -12,4 +12,8 @@ class NavigatorImpl(
     override fun navigateToDaysForecast(latitude: String, longitude: String) {
         navController.navigate("${Destination.DaysForecast.route}/$latitude/$longitude")
     }
+
+    override fun navigateToDayForecastDetails(index: Int) {
+        navController.navigate("${Destination.DayForecastDetails.route}/$index")
+    }
 }
