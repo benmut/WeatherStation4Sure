@@ -12,5 +12,11 @@ class DayTimeUtils {
         fun getDayOfWeek(timestamp: Long): String {
             return SimpleDateFormat("EEEE", Locale.ENGLISH).format(timestamp * 1000)
         }
+
+        fun getTimeFromTimestamp(timestamp: Long): String {
+            return Instant.ofEpochSecond(timestamp)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+        }
     }
 }

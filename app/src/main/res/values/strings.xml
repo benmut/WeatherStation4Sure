@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">WeatherStation4Sure</string>
     <string name="days_forecast_screen_title">5-Days Forecast</string>
+    <string name="min">min</string>
+    <string name="max">max</string>
+    <string name="sunrise">sunrise</string>
+    <string name="sunset">sunset</string>
+    <string name="humidity">humidity</string>
+    <string name="pressure">pressure</string>
+    <string name="visibility">visibility</string>
 </resources>
