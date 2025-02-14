@@ -29,6 +29,7 @@ import com.mutondo.weatherstation4sure.BuildConfig
 import com.mutondo.weatherstation4sure.R
 import com.mutondo.weatherstation4sure.common.presentation.PreferencesDataStoreEvent
 import com.mutondo.weatherstation4sure.common.presentation.PreferencesDataStoreViewModel
+import com.mutondo.weatherstation4sure.component.LoadingIndicator
 import com.mutondo.weatherstation4sure.component.ScreenTopAppBar
 import com.mutondo.weatherstation4sure.component.TemperatureDialog
 import com.mutondo.weatherstation4sure.navigation.LATITUDE_KEY
@@ -101,6 +102,10 @@ fun DaysForecastScreenContent(
             onDismissRequest = onDismissDialog,
             onConfirmation = onConfirmation
         )
+    }
+
+    if (uiState.isLoading) {
+        LoadingIndicator()
     }
 
     ForecastList(

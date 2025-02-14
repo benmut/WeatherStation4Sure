@@ -1,7 +1,6 @@
 package com.mutondo.weatherstation4sure.weather_forecast.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import com.mutondo.weatherstation4sure.utils.AppUtils.Companion.convertKelvinToCelsius
 import com.mutondo.weatherstation4sure.utils.DayTimeUtils.Companion.getDayOfWeek
 import com.mutondo.weatherstation4sure.utils.DayTimeUtils.Companion.getTimeFromTimestamp
 import com.mutondo.weatherstation4sure.utils.orZero
