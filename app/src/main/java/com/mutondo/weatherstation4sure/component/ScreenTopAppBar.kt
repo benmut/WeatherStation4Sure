@@ -2,6 +2,7 @@ package com.mutondo.weatherstation4sure.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,8 +15,9 @@ import androidx.compose.runtime.Composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenTopAppBar(
+    topAppBarTitle: String,
     onNavigateUp: () -> Unit,
-    topAppBarTitle: String
+    onClick: () -> Unit
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -29,6 +31,14 @@ fun ScreenTopAppBar(
             IconButton(onClick = { onNavigateUp() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = null
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = onClick) {
+                Icon(
+                    imageVector = Icons.Filled.Settings,
                     contentDescription = null
                 )
             }
