@@ -71,10 +71,9 @@ fun WeatherForecastDto.toWeatherForecast(): List<WeatherForecast> {
         // I choose to pick 12:00:00 data... I could pick based on current time as well
         forecast.timeStampS!!.contains("12:00:00") }?.map {
         WeatherForecast(
-            // TODO - Handle Fahrenheit
-            temperature = convertKelvinToCelsius(it.main?.temperature.orZero),
-            tempMax = convertKelvinToCelsius(it.main?.temperatureMax.orZero),
-            tempMin = convertKelvinToCelsius(it.main?.temperatureMin.orZero),
+            temperature = it.main?.temperature.orZero,
+            tempMax = it.main?.temperatureMax.orZero,
+            tempMin = it.main?.temperatureMin.orZero,
             description = it.weathers?.get(0)?.description.orEmpty(),
             pressure = it.main?.pressure.orZero,
             humidity = it.main?.humidity.orZero,

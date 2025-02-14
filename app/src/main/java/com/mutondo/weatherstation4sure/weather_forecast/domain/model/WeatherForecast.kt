@@ -1,9 +1,9 @@
 package com.mutondo.weatherstation4sure.weather_forecast.domain.model
 
 data class WeatherForecast(
-    val temperature: String,
-    val tempMax: String,
-    val tempMin: String,
+    val temperature: Float,
+    val tempMax: Float,
+    val tempMin: Float,
     val description: String,
     val pressure: Int,
     val humidity: Int,

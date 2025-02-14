@@ -25,6 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.mutondo.weatherstation4sure.R
+import com.mutondo.weatherstation4sure.utils.Constants.CELSIUS
+import com.mutondo.weatherstation4sure.utils.Constants.FAHRENHEIT
 
 @Composable
 fun TemperatureDialog(
@@ -46,7 +48,7 @@ fun TemperatureDialog(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val radioOptions = listOf("Celsius", "Fahrenheit")
+                val radioOptions = listOf(CELSIUS, FAHRENHEIT)
                 val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
 
                 Column(Modifier.selectableGroup()) {
