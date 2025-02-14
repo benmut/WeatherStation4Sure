@@ -11,6 +11,6 @@ data class WeatherForecast(
     val dayOfWeek: String,
     val timeStampString: String,
     val city: String,
-    val sunrise: Long,
-    val sunset: Long
+    val sunrise: String,
+    val sunset: String
 )

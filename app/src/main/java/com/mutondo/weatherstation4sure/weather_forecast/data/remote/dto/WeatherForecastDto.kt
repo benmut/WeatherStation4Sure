@@ -3,6 +3,7 @@ package com.mutondo.weatherstation4sure.weather_forecast.data.remote.dto
 import com.google.gson.annotations.SerializedName
 import com.mutondo.weatherstation4sure.utils.AppUtils.Companion.convertKelvinToCelsius
 import com.mutondo.weatherstation4sure.utils.DayTimeUtils.Companion.getDayOfWeek
+import com.mutondo.weatherstation4sure.utils.DayTimeUtils.Companion.getTimeFromTimestamp
 import com.mutondo.weatherstation4sure.utils.orZero
 import com.mutondo.weatherstation4sure.weather_forecast.domain.model.WeatherForecast
 
@@ -77,12 +78,12 @@ fun WeatherForecastDto.toWeatherForecast(): List<WeatherForecast> {
             description = it.weathers?.get(0)?.description.orEmpty(),
             pressure = it.main?.pressure.orZero,
             humidity = it.main?.humidity.orZero,
-            visibility = it.visibility.orZero,
+            visibility = it.visibility.orZero / 1000,
             dayOfWeek = getDayOfWeek(it.timeStampL.orZero),
             timeStampString = it.timeStampS.toString(),
             city = city?.name.orEmpty(),
-            sunrise = city?.sunrise.orZero,
-            sunset = city?.sunset.orZero
+            sunrise = getTimeFromTimestamp(city?.sunrise.orZero),
+            sunset = getTimeFromTimestamp(city?.sunset.orZero)
         )
     } ?: listOf()
 }
