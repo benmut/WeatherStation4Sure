@@ -94,6 +94,12 @@ dependencies {
     implementation (libs.kotlinx.coroutines.core)
     implementation (libs.kotlinx.coroutines.play)
 
+    // Coil
+    implementation (libs.coil.compose)
+
+    // ConstraintLayout Compose
+    implementation(libs.androidx.constraintlayout.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
