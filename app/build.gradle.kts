@@ -87,6 +87,13 @@ dependencies {
     // Preferences DataStore
     implementation (libs.androidx.datastore.preferences)
 
+    // Google Play Service
+    implementation (libs.play.services.location)
+
+    // Coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.play)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
