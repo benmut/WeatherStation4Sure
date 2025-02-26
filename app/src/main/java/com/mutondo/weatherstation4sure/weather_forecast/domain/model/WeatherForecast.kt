@@ -5,6 +5,7 @@ data class WeatherForecast(
     val tempMax: Float,
     val tempMin: Float,
     val description: String,
+    val icon: String,
     val pressure: Int,
     val humidity: Int,
     val visibility: Int,

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.mutondo.weatherstation4sure.R
 import com.mutondo.weatherstation4sure.utils.Constants.CELSIUS
 import com.mutondo.weatherstation4sure.utils.Constants.FAHRENHEIT
@@ -33,7 +34,7 @@ fun TemperatureDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: (String) -> Unit
 ) {
-    androidx.compose.ui.window.Dialog(
+    Dialog(
         onDismissRequest = { onDismissRequest() }
     ) {
         Card(

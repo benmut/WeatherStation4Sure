@@ -2,9 +2,13 @@ package com.mutondo.weatherstation4sure.weather_forecast.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
@@ -20,11 +24,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
+import coil.compose.AsyncImage
 import com.mutondo.weatherstation4sure.BuildConfig
 import com.mutondo.weatherstation4sure.R
 import com.mutondo.weatherstation4sure.common.presentation.PreferencesDataStoreEvent
@@ -39,6 +47,8 @@ import com.mutondo.weatherstation4sure.utils.AppUtils.Companion.convertKelvinToC
 import com.mutondo.weatherstation4sure.utils.AppUtils.Companion.convertKelvinToFahrenheit
 import com.mutondo.weatherstation4sure.utils.Constants.CELSIUS
 import com.mutondo.weatherstation4sure.weather_forecast.domain.model.WeatherForecast
+
+const val ICON_ROW_ID = "icon row id"
 
 @Composable
 fun DaysForecastScreen(
@@ -130,7 +140,7 @@ fun ForecastList(
             ForecastItem(
                 index = index,
                 day = forecast.dayOfWeek,
-                icon = "", // TODO
+                icon = forecast.icon,
                 temperature = forecast.temperature,
                 onDaySelected = onDaySelected,
             )
@@ -153,34 +163,63 @@ fun ForecastItem(
     onDaySelected: (Int) -> Unit,
     prefsViewModel: PreferencesDataStoreViewModel = hiltViewModel()
 ) {
+    val constraints = iconConstraints()
     val preferences = prefsViewModel.readPreferencesFromDataStore.collectAsState(null).value
 
-    Row(
-        modifier = Modifier
-            .padding(dimensionResource(R.dimen.margin_default))
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) {
-                onDaySelected(index)
-            },
-        verticalAlignment = Alignment.CenterVertically
+    ConstraintLayout(
+        modifier = Modifier.fillMaxWidth(),
+        constraintSet = constraints
     ) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = day,
-            color = Color(0xFF5D5D5D)
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = dimensionResource(R.dimen.margin_default),
+                    vertical = dimensionResource(R.dimen.margin_tiny)
+                )
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    onDaySelected(index)
+                },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = day,
+                color = Color(0xFF5D5D5D)
+            )
 
-//        Icon() // TODO
+            Text(
+                text = if (preferences?.showCelsius == true) {
+                    convertKelvinToCelsius(temperature)
+                } else {
+                    convertKelvinToFahrenheit(temperature)
+                },
+                color = Color(0xFF5D5D5D)
+            )
+        }
 
-        Text(
-            modifier = Modifier.weight(1f),
-            text = if (preferences?.showCelsius == true) {
-                convertKelvinToCelsius(temperature) } else {
-                convertKelvinToFahrenheit(temperature)
-            },
-            color = Color(0xFF5D5D5D)
+        AsyncImage(
+            modifier = Modifier
+                .size(48.dp)
+                .layoutId(ICON_ROW_ID),
+            model = "http://openweathermap.org/img/wn/$icon@2x.png",
+            contentDescription = null
         )
+    }
+}
+
+private fun iconConstraints(): ConstraintSet {
+    return ConstraintSet {
+        val titleRowRef = createRefFor(ICON_ROW_ID)
+
+        constrain(titleRowRef) {
+            start.linkTo(parent.start, margin = 0.dp)
+            top.linkTo(parent.top, margin = 0.dp)
+            end.linkTo(parent.end, margin = 0.dp)
+            bottom.linkTo(parent.bottom, margin = 0.dp)
+        }
     }
 }

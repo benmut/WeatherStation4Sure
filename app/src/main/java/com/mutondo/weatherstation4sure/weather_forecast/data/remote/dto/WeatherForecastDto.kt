@@ -74,6 +74,7 @@ fun WeatherForecastDto.toWeatherForecast(): List<WeatherForecast> {
             tempMax = it.main?.temperatureMax.orZero,
             tempMin = it.main?.temperatureMin.orZero,
             description = it.weathers?.get(0)?.description.orEmpty(),
+            icon = it.weathers?.get(0)?.icon.orEmpty(),
             pressure = it.main?.pressure.orZero,
             humidity = it.main?.humidity.orZero,
             visibility = it.visibility.orZero / 1000,
